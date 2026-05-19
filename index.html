@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Font Awesome 6 (versi terbaru via CDN) -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+  <title>https://marketblast.online</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: #475569;
+      margin: 0;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: left;
+      margin-bottom: 25px;
+      font-size: 24px;
+      color: #fff;
+    }
+
+    /* ===== HEADER STATUS ===== */
+    .header-status {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .status-card {
+      flex: 1;
+      min-width: 150px;
+      color: #fff;
+      border-radius: 8px;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .red { background-color: #dc2626; }
+    .blue { background-color: #2563eb; }
+    .green { background-color: #16a34a; }
+    .gray { background-color: #475569; }
+    .black { background-color: #000000;
+      
+    }
+    .orange { background-color: #ff4900;
+      }
+      .violet { background-color: #bf00ff;
+      
+    }
+
+    /* ===== SEARCH BOX ===== */
+    .search-bar {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .search-bar input {
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      width: 250px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-bar input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 4px rgba(37,99,235,0.3);
+    }
+
+    /* ===== TABLE ===== */
+    .table-wrapper {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #2563eb;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    td {
+      text-align: center;
+      padding: 10px;
+      font-size: 13px;
+      border-bottom: 1px solid #e5e7eb;
+      color: #333;
+    }
+
+    tr:nth-child(even) {
+      background: #f9fafb;
+    }
+
+    .running {
+      color: #16a34a;
+      font-weight: 600;
+    }
+
+    .include-video {
+      color: #0f172a;
+      font-weight: 500;
+    }
+
+    /* ===== FOOTER INFO ===== */
+    .footer-info {
+      margin-top: 15px;
+      font-size: 12px;
+      color: #6b7280;
+      text-align: right;
+    }
+
+    /* ===== SCROLL TABLE ===== */
+    .table-container {
+      overflow-x: auto;
+    }
+    
+        /* container kecil dan responsif */
+    .video-card{
+      width: 260px;                /* ukuran default kecil */
+      max-width: 60vw;            /* responsif di layar kecil */
+      border-radius:12px;
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+      position:relative;
+    }
+
+    /* video stretch ke container */
+    .video-card video{
+      display:block;
+      width:100%;
+      height:auto;
+      background:#000;
+    }
+
+    /* overlay yang menutupi video saat waiting */
+    .overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:10px;
+      pointer-events:none; /* biarkan klik ke video (ubah kalau mau blok) */
+      transition:opacity .25s ease, visibility .25s ease;
+      opacity:0;
+      visibility:hidden;
+      background: linear-gradient(180deg, rgba(2,6,23,0.35), rgba(2,6,23,0.55));
+      color:var(--text);
+    }
+
+    .overlay.show{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+    }
+
+    /* spinner kecil */
+    .spinner{
+      width:28px;
+      height:28px;
+      border-radius:50%;
+      border:3px solid rgba(255,255,255,0.12);
+      border-top-color:var(--accent);
+      animation:spin 0.9s linear infinite;
+      flex:0 0 auto;
+    }
+
+    @keyframes spin{
+      to{ transform:rotate(360deg); }
+    }
+
+    .status{
+      font-size:13px;
+      line-height:1;
+      text-align:left;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .status .title{
+      font-weight:600;
+      font-size:13px;
+    }
+
+    .status .subtitle{
+      font-size:11px;
+      opacity:0.8;
+      margin-top:2px;
+    }
+
+    /* kecilkan teks tombol kontrol */
+    .controls{
+      display:flex;
+      gap:8px;
+      padding:10px;
+      background:transparent;
+      justify-content:center;
+    }
+
+    .controls button{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.08);
+      color:var(--text);
+      padding:6px 10px;
+      border-radius:8px;
+      font-size:12px;
+      color:#fff;
+      cursor:pointer;
+      backdrop-filter: blur(4px);
+    }
+
+    .controls button:hover{ transform:translateY(-1px); }
+
+    /* aksesibilitas: fokus */
+    .controls button:focus { outline:2px solid rgba(6,182,212,0.25); outline-offset:2px; }
+    
+    
+    h5 {
+      color: #FFD700; /* warna gold */
+      font-size: 16px;
+      font-weight: bold;
+      animation: kedip 1s infinite; /* 1 detik berulang terus */
+    }
+
+    @keyframes kedip {
+      50% { opacity: 0; } /* hilang di tengah siklus */
+    }
+  </style>
+</head>
+<body>
+    <div class="video-card" id="videoCard">
+    <!-- video kecil; ganti src dengan video kamu -->
+    <video id="player" playsinline preload="metadata" controls>
+      <!-- contoh: gunakan file mp4 lokal atau CDN -->
+      <source src="selli.mp4" type="video/mp4">
+      Browser Anda tidak mendukung tag video.
+    </video>
+
+    <!-- overlay spinner & teks -->
+    <div class="overlay" id="overlay" role="status" aria-live="polite" aria-hidden="true">
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="status">
+        <div class="title">Waiting content</div>
+        <div class="subtitle" id="overlaySubtitle">Memuat / buffering...</div>
+      </div>
+    </div>
+
+    <!-- kontrol demo kecil -->
+    <div class="controls" style="background:transparent;">
+      <button id="simulateWaiting">Lanjut Live</button>
+      <button id="hideOverlay">Ubah Platform</button>
+    </div>
+  </div>
+  <br>
+  <h1>DASHBOARD MULTILIVE</h1>
+  <h5><i class="fa fa-users"></i> : Sarimbit store</h5>
+    <h5><i class="fa fa-star"></i> : Premium full service</h5>
+
+  <!-- STATUS HEADER -->
+  <div class="header-status">
+    <div class="status-card black">Tiktok <span id="jumlahLive"><i class="fa fa-eye"></i> 106.1k</span></div>
+    <div class="status-card orange">Shopee <span id="liveAktif"><i class="fa fa-eye"></i> 12.1M</span></div>
+    <div class="status-card violet">Insta <span id="liveTerjadwal"><i class="fa fa-eye"></i> 100.9K</span></div>
+    <div class="status-card blue">Facebook <span id="liveMati">0</span></div>
+        <div class="status-card blue">Telegram <span id="jumlahLive">0</span></div>
+    <div class="status-card red">Youtube <span id="liveAktif">0</span></div>
+    <div class="status-card green">Live Terjadwal <span id="liveTerjadwal">30</span></div>
+    <div class="status-card red">Live Off <span id="liveMati">0</span></div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="🔍 Cari livestream...">
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrapper">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Durasi</th>
+            <th>Mode</th>
+            <th>Jadwal Ulang</th>
+            <th>Content</th>
+            <th>Status</th>
+            <th>Countdown</th>
+            <th>Jadwal Mulai</th>
+            <th>Jadwal Berhenti</th>
+          </tr>
+        </thead>
+        <tbody id="tabelLive"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer-info">
+    © 2025 SiapLive Dashboard | Marketblast multilive
+  </div>
+
+  <script>
+    // ======== DATA DUMMY (bisa diubah) ========
+    const data = [
+      { durasi: '11h 55m', mode: 'SiapLive', ulang: 'Setiap Hari', lagu: 'Include Video', status: 'Running', countdown: 7910, mulai: '1/11/2025 19:05', berhenti: '30/11/2025 07:00' },
+      { durasi: '11h 55m', mode: 'SiapLive', ulang: 'Setiap Hari', lagu: 'Include Video', status: 'Running', countdown: 4200, mulai: '1/11/2025 20:05', berhenti: '30/11/2025 08:00' },
+      { durasi: '11h 55m', mode: 'SiapLive', ulang: 'Setiap Hari', lagu: 'Include Video', status: 'Running', countdown: 2700, mulai: '1/11/2025 21:05', berhenti: '30/11/2025 09:00' },
+      { durasi: '11h 55m', mode: 'SiapLive', ulang: 'Setiap Hari', lagu: 'Include Video', status: 'Running', countdown: 10000, mulai: '1/11/2025 10:05', berhenti: '30/11/2025 22:00' },
+      { durasi: '11h 55m', mode: 'SiapLive', ulang: 'Setiap Hari', lagu: 'Include Video', status: 'Running', countdown: 5400, mulai: '1/11/2025 13:05', berhenti: '30/11/2025 01:00' },
+    ];
+
+    const tbody = document.getElementById('tabelLive');
+
+    // Render Table
+    function renderTable(list) {
+      tbody.innerHTML = '';
+      list.forEach((item, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${item.durasi}</td>
+          <td>${item.mode}</td>
+          <td>${item.ulang}</td>
+          <td class="include-video">${item.lagu}</td>
+          <td class="running">${item.status}</td>
+          <td class="countdown" data-seconds="${item.countdown}"></td>
+          <td>${item.mulai}</td>
+          <td>${item.berhenti}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Format waktu
+    function formatTime(sec) {
+      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    // Countdown Otomatis
+    function startCountdown() {
+      setInterval(() => {
+        document.querySelectorAll('.countdown').forEach(cd => {
+          let seconds = parseInt(cd.getAttribute('data-seconds'));
+          if (seconds > 0) {
+            seconds--;
+            cd.textContent = `Sisa: ${formatTime(seconds)}`;
+            cd.setAttribute('data-seconds', seconds);
+          } else {
+            cd.textContent = 'Selesai';
+            cd.style.color = '#dc2626';
+            cd.style.fontWeight = '600';
+          }
+        });
+      }, 1000);
+    }
+
+    // Pencarian / Filter
+    document.getElementById('searchInput').addEventListener('input', e => {
+      const q = e.target.value.toLowerCase();
+      const filtered = data.filter(item =>
+        Object.values(item).some(v => String(v).toLowerCase().includes(q))
+      );
+      renderTable(filtered);
+    });
+
+    // Inisialisasi
+    renderTable(data);
+    startCountdown();
+  </script>
+  
+    <script>
+    // Elemen
+    const video = document.getElementById('player');
+    const overlay = document.getElementById('overlay');
+    const subtitle = document.getElementById('overlaySubtitle');
+    const simulateBtn = document.getElementById('simulateWaiting');
+    const hideBtn = document.getElementById('hideOverlay');
+
+    // Fungsi tampilkan overlay
+    function showOverlay(text = 'Memuat / buffering...') {
+      subtitle.textContent = text;
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    // Fungsi sembunyikan overlay
+    function hideOverlay() {
+      overlay.classList.remove('show');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    // Event video yang relevan:
+    // - 'waiting': pemutar menunggu data (buffering)
+    // - 'stalled': data berhenti datang
+    // - 'playing': sudah mulai memutar
+    // - 'loadeddata' / 'canplay': data pertama sudah siap
+    // - 'error': terjadi kesalahan
+    video.addEventListener('waiting', () => {
+      showOverlay('Waiting content — buffering...');
+    });
+
+    video.addEventListener('stalled', () => {
+      showOverlay('Waiting content — stalled');
+    });
+
+    video.addEventListener('playing', () => {
+      hideOverlay();
+    });
+
+    video.addEventListener('canplay', () => {
+      // video siap dimainkan (tetap tampil sampai playing)
+      // kalau mau hilang langsung: hideOverlay();
+    });
+
+    video.addEventListener('loadeddata', () => {
+      // data awal sudah dimuat; hapus overlay jika ingin
+      // hideOverlay();
+    });
+
+    video.addEventListener('error', (e) => {
+      showOverlay('Gagal memuat video');
+      console.error('Video error:', e);
+    });
+
+    // Simulasi: tunjukkan overlay beberapa detik
+    simulateBtn.addEventListener('click', () => {
+      showOverlay('Simulasi: menunggu konten...');
+      // hilangkan setelah 4 detik (simulasi)
+      setTimeout(() => {
+        // jangan sembunyikan kalau video masih menunggu nyata; ini cuma demo
+        hideOverlay();
+      }, 4000);
+    });
+
+    hideBtn.addEventListener('click', hideOverlay);
+
+    // OPTIONAL: Saat halaman load, kalau video belum siap, tampilkan overlay kecil
+    window.addEventListener('load', () => {
+      // kalau video belum ada metadata, tampilkan pesan singkat
+      if (!video.readyState || video.readyState < 2) {
+        showOverlay('Waiting content — mempersiapkan');
+      }
+    });
+  </script>
+</body>
+</html>
