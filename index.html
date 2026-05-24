@@ -505,8 +505,8 @@ function generateTable(){
 
   for(let i = 0; i <= currentDay; i++){
 
-    const links = 0;
-    const views = 0;
+    const links = 2;
+    const views = 20000;
     const percent = 70;
 
     const row = document.createElement('tr');
@@ -525,8 +525,8 @@ function generateTable(){
 
 function updateDashboard(){
 
-  const totalLinks = 0;
-  const totalViews = 0;
+  const totalLinks = 2;
+  const totalViews = 20000;
   const algo = 70;
 
   animateValue(dayNumber,0,currentDay,1200);
@@ -545,7 +545,7 @@ function updateDashboard(){
 
   progressFill.style.width = algo + '%';
 
-  todayLabel.innerHTML = `Hari ke-0`;
+  todayLabel.innerHTML = `Hari ke-1`;
 
   generateTable();
 }
